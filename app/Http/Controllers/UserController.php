@@ -12,10 +12,12 @@ use Modules\Permission\Repositories\RoleRepository;
 class UserController extends AppController
 {
     private $userRepository;
+    private $roleRepository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $repository, RoleRepository $roleRepository)
     {
         $this->userRepository = $repository;
+        $this->roleRepository = $roleRepository;
     }
 
     public function index()
@@ -31,7 +33,9 @@ class UserController extends AppController
         // $this->allowedAction('addUser');
         Session::flash('page', 'users');
 
-        return view('admin.users.form');
+        $roles = $this->roleRepository->all();
+
+        return view('admin.users.form', ["roles" => $roles]);
     }
 
     public function store(UserRequest $request)
@@ -49,8 +53,16 @@ class UserController extends AppController
         Session::flash('page', 'users');
 
         $user = $this->userRepository->show($id);
+        $roles = $this->roleRepository->all();
+        $userRolesIds = $this->userRepository->getUserRolesIds($id);
 
-        return view('admin.users.form', ['user' => $user]);
+        $data = [
+            'user' => $user,
+            "roles" => $roles,
+            "rolePermissionsIds" => $userRolesIds,
+        ];
+
+        return view('admin.users.form', $data);
     }
 
     public function update(UserRequest $request, string $id)
@@ -77,15 +89,14 @@ class UserController extends AppController
     {
         // $this->allowedAction('manageRolePermissions');
         Session::flash('page', 'users');
-        $roleRepository = new RoleRepository;
 
         $userRolesIds = $this->userRepository->getUserRolesIds($id);
 
-        $rolesGrouped = $roleRepository->all();
+        $roles = $this->roleRepository->all();
 
         $data = [
             "rolePermissionsIds" => $userRolesIds,
-            "permissionsGrouped" => $rolesGrouped,
+            "roles" => $roles,
             "roleId" => $id
         ];
 

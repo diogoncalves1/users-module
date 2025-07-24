@@ -24,6 +24,7 @@ class UserRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|string|max:255',
+            'roles' => 'required|array|min:1'
         ];
 
         if ($this->get('user_id')) {
