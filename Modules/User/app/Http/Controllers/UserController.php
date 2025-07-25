@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\User\app\Http\Controllers;
 
-use App\Http\Requests\UpdateUserRolesRequest;
-use App\Http\Requests\UserRequest;
-use App\Repositories\UserRepository;
+use Modules\User\app\Http\Requests\UpdateUserRolesRequest;
+use Modules\User\app\Http\Requests\UserRequest;
+use Modules\User\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Modules\Permission\Repositories\RoleRepository;
+use App\Http\Controllers\AppController;
 
 class UserController extends AppController
 {
@@ -25,7 +26,7 @@ class UserController extends AppController
         // $this->allowedAction('viewUsers');
         Session::flash('page', 'users');
 
-        return view('admin.users.index');
+        return view('user::users.index');
     }
 
     public function create()
@@ -35,7 +36,7 @@ class UserController extends AppController
 
         $roles = $this->roleRepository->all();
 
-        return view('admin.users.form', ["roles" => $roles]);
+        return view('user::users.form', ["roles" => $roles]);
     }
 
     public function store(UserRequest $request)
@@ -62,7 +63,7 @@ class UserController extends AppController
             "userRolesIds" => $userRolesIds,
         ];
 
-        return view('admin.users.form', $data);
+        return view('user::users.form', $data);
     }
 
     public function update(UserRequest $request, string $id)
@@ -100,7 +101,7 @@ class UserController extends AppController
             "userId" => $id
         ];
 
-        return view('admin.users.manage', $data);
+        return view('user::users.manage', $data);
     }
 
     public function manage(UpdateUserRolesRequest $request, string $id)

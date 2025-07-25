@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Repositories;
+namespace Modules\User\Repositories;
 
-use App\Models\User;
+use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use App\Repositories\RepositoryInterface;
 
 class UserRepository implements RepositoryInterface
 {
