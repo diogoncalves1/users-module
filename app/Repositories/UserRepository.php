@@ -119,7 +119,7 @@ class UserRepository implements RepositoryInterface
     public function dataTable(Request $request)
     {
         $query = User::whereDoesntHave('roles', function ($query) {
-            $query->where('name', 'superAdmin');
+            $query->where('code', 'superAdmin');
         });
         if ($search = $request->input('search.value')) {
             $query->where(function ($q) use ($search) {
@@ -142,7 +142,7 @@ class UserRepository implements RepositoryInterface
 
         $users = $query->offset($request->start)
             ->limit($request->length)
-            ->select("name", "email")
+            ->select("name", "email", "id")
             ->get();
 
         foreach ($users as &$user) {
