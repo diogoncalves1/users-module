@@ -102,9 +102,10 @@ class UserRepository implements RepositoryInterface
     {
         try {
             DB::transaction(function () use ($request, $id) {
-                $input = $request->all();
+                $input = $request->get('roles');
 
                 $user = $this->show($id);
+
                 $this->updateRoles($user, $input);
 
                 Log::info('User ' . $user->id . ' updated roles.');
@@ -146,7 +147,7 @@ class UserRepository implements RepositoryInterface
             ->get();
 
         foreach ($users as &$user) {
-            $user->roles->pluck('name');
+            $user->roles->pluck('name')->toArray();
             $user->actions = "<div class='btn-group'>
                             <a type='button' href='" . route('admin.users.manage', $user->id) . "' class='btn mr-1 btn-default'>
                                 <i class='fas fa-cogs'></i>

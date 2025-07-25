@@ -1,22 +1,25 @@
 @extends('layouts.admin')
 
-@section('title', 'CashManager | Adicionar Papeis ')
+@section('title', 'Adicionar Utilizador ')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active"><a class="text-white" href="{{ route('admin.roles.index') }}">Papeis</a>
+<li class="breadcrumb-item active"><a class="text-white" href="{{ route('admin.users.index') }}">Utilizadores</a>
 </li>
-<li class="breadcrumb-item active">{{ isset($role) ? 'Editar' : 'Adicionar' }}</li>
+<li class="breadcrumb-item active">{{ isset($user) ? 'Editar' : 'Adicionar' }}</li>
+@endsection
+
+@section('css')
+<link rel="stylesheet" href="/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 @endsection
 
 @section('content')
-
 <section class="content">
-    <form action="{{ isset($role) ? route('admin.roles.update', $role->id) : route('admin.roles.store')  }}"
+    <form action="{{ isset($user) ? route('admin.users.update', $user->id) : route('admin.users.store')  }}"
         method="POST">
         @csrf
-        @if(isset($role))
+        @if(isset($user))
         @method('PUT')
-        <input hidden name="role_id" value="{{ $role->id }}" type="text">
+        <input hidden name="user_id" value="{{ $user->id }}" type="text">
         @else
         @method('POST')
         @endif
@@ -28,32 +31,55 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="inputCode">Código <span class="text-danger">*</span></label>
-                            <input type="text" name="code" value='{{ $role->code ?? "" }}' class="validate form-control"
+                            <label for="inputCode">Nome <span class="text-danger">*</span></label>
+                            <input type="text" name="name" value='{{ $user->name ?? "" }}' class="validate form-control"
                                 required>
-                            <span class="error invalid-feedback" id="errorFeedbackCode">Preencha este campo</span>
-                            <span class="success valid-feedback">Campo preenchido</span>
                         </div>
 
                         <div class="form-group">
-                            <label for="inputDisplayName">Nome <span class="text-danger">*</span></label>
-                            <input type="text" name="name" value='{{ $role->name ?? "" }}' class="validate form-control"
-                                required>
-                            <span class="error invalid-feedback">Preencha este
-                                campo</span>
-                            <span class="success valid-feedback">Campo preenchido</span>
+                            <label for="inputDisplayName">Email <span class="text-danger">*</span></label>
+                            <input type="email" name="email" value='{{ $user->email ?? "" }}'
+                                class="validate form-control" required>
                         </div>
 
+                        <div class="form-group">
+                            <label for="inputDisplayName">Password
+                                <span class="text-danger"> {{ isset($user) ? '' : '*'}}</span> </label>
+                            <input type="password" name="password" minlength="8" class="validate form-control"
+                                {{ isset($user) ? '' : 'required' }}>
+                        </div>
+
+                        <h3><b>Papeis</b> <span class="text-danger">*</span></h3>
+                        @foreach($roles as $index => $role)
+                        @if ($index % 4 == 0)
+                        <div class="row">
+                            @endif
+                            <div class="col-3">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-success d-inline ">
+                                        <input class="form-control" type="checkbox" name="roles[]"
+                                            value="{{ $role->id }}"
+                                            {{ isset($userRolesIds) && in_array($role->id, $userRolesIds) ? 'checked' : '' }}>
+                                        <label><?= $role->name ?></label>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (($index + 1) % 4 == 0)
+                        </div>
+                        @endif
+                        @endforeach
+                        @if (($index + 1) % 4 != 0)
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
-        <div class=" row">
-            <div class="col-12">
-                <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary">Voltar</a>
-                <button type="submit" id="btnSubmit"
-                    class="btn btn-success float-right">{{ isset($role) ? 'Editar' : 'Adicionar' }}
-                    Papel</button>
+        </div>
+        <div class="row">
+            <div class="col-12 ">
+                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Voltar</a>
+                <button type="submit" class="btn btn-success float-right">{{ isset($user) ? 'Editar' : 'Adicionar' }}
+                    Utilizador</button>
             </div>
         </div>
     </form>

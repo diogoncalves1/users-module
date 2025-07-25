@@ -59,7 +59,7 @@ class UserController extends AppController
         $data = [
             'user' => $user,
             "roles" => $roles,
-            "rolePermissionsIds" => $userRolesIds,
+            "userRolesIds" => $userRolesIds,
         ];
 
         return view('admin.users.form', $data);
@@ -95,12 +95,12 @@ class UserController extends AppController
         $roles = $this->roleRepository->all();
 
         $data = [
-            "rolePermissionsIds" => $userRolesIds,
+            "userRolesIds" => $userRolesIds,
             "roles" => $roles,
-            "roleId" => $id
+            "userId" => $id
         ];
 
-        return view('permission::roles.manage', $data);
+        return view('admin.users.manage', $data);
     }
 
     public function manage(UpdateUserRolesRequest $request, string $id)
@@ -109,7 +109,7 @@ class UserController extends AppController
 
         $this->userRepository->manageRoles($request, $id);
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('admin.users.index');
     }
 
     public function dataTable(Request $request)

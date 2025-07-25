@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-header">
                         {{-- @can('authorization', 'addUser') --}}
-                        <a href="{{ route('admin.roles.create') }}" class="btn btn-default">Adicionar
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-default">Adicionar
                             Utilizador</a>
                         {{-- @endcan --}}
                     </div>

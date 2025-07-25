@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div class=" row">
+        <div class="row">
             <div class="col-12">
                 <a href="{{ route('admin.permissions.index') }}" class="btn btn-secondary">Voltar</a>
                 <button type="submit" id="btnSubmit"

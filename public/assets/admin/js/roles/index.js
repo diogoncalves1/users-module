@@ -10,11 +10,11 @@ $(function () {
         columnDefs: [
             {
                 orderable: false,
-                targets: [2, 3],
+                targets: [2],
             },
         ],
         ajax: {
-            url: "/admin/users/data",
+            url: "/admin/roles/data",
             type: "GET",
             dataSrc: function (json) {
                 console.log(json);
@@ -23,18 +23,10 @@ $(function () {
         },
         columns: [
             {
+                data: "code",
+            },
+            {
                 data: "name",
-            },
-            {
-                data: "email",
-            },
-            {
-                data: "roles",
-                render: function (roles) {
-                    return roles.map((role) => {
-                        return " " + role.name;
-                    });
-                },
             },
             {
                 data: "actions",

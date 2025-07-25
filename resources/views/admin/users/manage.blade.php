@@ -3,8 +3,8 @@
 @section('title', 'CashManager | Gerir Permissões')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active"><a class="text-white" href="{{ route('admin.roles.index') }}">Papeis</a></li>
-<li class="breadcrumb-item active">Gerir Permissões</li>
+<li class="breadcrumb-item active"><a class="text-white" href="{{ route('admin.users.index') }}">Utilizadores</a></li>
+<li class="breadcrumb-item active">Gerir Papeis</li>
 @endsection
 
 @section('css')
@@ -13,14 +13,14 @@
 
 @section('content')
 <section class="content">
-    <form action="{{ route('admin.roles.manage.update', $roleId) }}" method="POST">
+    <form action="{{ route('admin.users.manage.update', $userId) }}" method="POST">
         @csrf
         @method('POST')
         <div class="col-12">
 
             <div class="card card-success">
                 <div class="card-header">
-                    <h3 class="card-title">Permissões</h3>
+                    <h3 class="card-title">Papeis</h3>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -29,19 +29,16 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @foreach ($permissionsGrouped as $category => $permissions)
-                    <h4><b><?= $category ?></b></h4>
-                    @foreach ($permissions as $index => $permission)
+                    @foreach($roles as $index => $role)
                     @if ($index % 4 == 0)
                     <div class="row">
                         @endif
                         <div class="col-3">
                             <div class="form-group clearfix">
                                 <div class="icheck-success d-inline ">
-                                    <input class="form-control" type="checkbox" name="permissions[]"
-                                        value="{{ $permission->id }}" id="<?= $permission->code ?>"
-                                        <?= in_array($permission->id, $rolePermissionsIds) ? 'checked' : '' ?>>
-                                    <label for="<?= $permission->code ?>"><?= $permission->name ?></label>
+                                    <input class="form-control" type="checkbox" name="roles[]" value="{{ $role->id }}"
+                                        {{ isset($userRolesIds) && in_array($role->id, $userRolesIds) ? 'checked' : '' }}>
+                                    <label><?= $role->name ?></label>
                                 </div>
                             </div>
                         </div>
@@ -52,13 +49,12 @@
                     @if (($index + 1) % 4 != 0)
                 </div>
                 @endif
-                @endforeach
             </div>
         </div>
         </div>
         <div class=" row">
             <div class="col-12">
-                <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary">Voltar</a>
+                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Voltar</a>
                 <button type="submit" class="btn btn-success float-right">Guardar
                     Alterações</button>
             </div>
