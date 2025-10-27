@@ -1,7 +1,7 @@
 <aside class="main-sidebar elevation-4 sidebar-dark-primary">
 
-    <a href="{{ route('admin.permissions.index') }}" class="brand-link bg-primary bg-indigo bg-dark bg-gray-dark">
-        <span class="brand-text font-weight-light">Permissions</span>
+    <a href="{{ route('admin.users.index') }}" class="brand-link bg-primary bg-indigo bg-dark bg-gray-dark">
+        <span class="brand-text font-weight-light">Users</span>
     </a>
 
     <div
@@ -47,39 +47,17 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview"
                             role="menu" data-accordion="false">
-                            {{-- @can('authorization', 'viewUsers') --}}
+                            @can('authorization', 'viewUser')
                             <li class="nav-item">
                                 <a href="{{ route('admin.users.index') }}"
-                                    class="nav-link {{ session('page') == 'users' ? 'active' : '' }}">
+                                    class="nav-link {!!  Illuminate\Support\Str::contains(\Request::route()->getName(), 'users') ? 'active' : '' !!}">
                                     <i class="nav-icon fas fa-user-shield"></i>
                                     <p>
                                         Utilizadores
                                     </p>
                                 </a>
                             </li>
-                            {{-- @endcan --}}
-                            {{-- @can('authorization', 'viewRoles') --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.roles.index') }}"
-                                    class="nav-link {{ session('page') == 'roles' ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-user-shield"></i>
-                                    <p>
-                                        Papeis de Utilizador
-                                    </p>
-                                </a>
-                            </li>
-                            {{-- @endcan --}}
-                            {{-- @can('authorization', 'viewPermissions') --}}
-                            <li class="nav-item">
-                                <a href="{{ route('admin.permissions.index') }}"
-                                    class="nav-link {{ session('page') == 'permissions' ? 'active' : '' }}">
-                                    <i class="nav-icon fas fa-user-shield"></i>
-                                    <p>
-                                        Permissões de Utilizador
-                                    </p>
-                                </a>
-                            </li>
-                            {{-- @endcan --}}
+                            @endcan
                         </ul>
                     </nav>
                 </div>
