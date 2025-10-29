@@ -22,7 +22,7 @@ class UserRepository implements RepositoryInterface
     public function store(Request $request)
     {
         try {
-            DB::transaction(function () use ($request) {
+            return DB::transaction(function () use ($request) {
                 $input = $request->except(['roles', 'password']);
 
                 $input['password'] = Hash::make($request->get('password'));
@@ -32,6 +32,8 @@ class UserRepository implements RepositoryInterface
 
                 Log::info('User ' . $user->id . ' created');
                 Session::flash('success', 'Utilizador criado com sucesso');
+
+                return $user;
             });
         } catch (\Exception $e) {
             Log::error($e);
