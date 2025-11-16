@@ -1,4 +1,6 @@
 {
+    "ApiResponder": true,
     "Permission": true,
+    "SharedRoles": true,
     "User": true
 }
